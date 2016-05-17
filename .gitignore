@@ -4,6 +4,7 @@
 /Page
 /Correctness
 /.settings
+/Experiments
 .project
 .cproject
 *.o

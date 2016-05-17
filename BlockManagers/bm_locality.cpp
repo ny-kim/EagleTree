@@ -32,7 +32,7 @@ void Sequential_Locality_BM::register_write_arrival(Event const& event) {
 		printf("arrival: %d  in time: %f\n", event.get_logical_address(), event.get_current_time());
 	}
 
-	ulong lb = event.get_logical_address();
+	unsigned long lb = event.get_logical_address();
 	int tag = event.get_tag();
 	if (tag != -1 && tag_map.count(tag) == 0) {
 		tagged_sequential_write tsw(lb, event.get_size());

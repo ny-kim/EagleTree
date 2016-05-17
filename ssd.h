@@ -335,9 +335,9 @@ public:
 	~Address() {}
 	enum address_valid compare(const Address &address) const;
 	void print(FILE *stream = stdout) const;
-	void set_linear_address(ulong address, enum address_valid valid);
-	void set_linear_address(ulong address);
-	ulong get_linear_address() const;
+	void set_linear_address(unsigned long address, enum address_valid valid);
+	void set_linear_address(unsigned long address);
+	unsigned long get_linear_address() const;
 	long get_block_id() const { return (get_linear_address() - page) / BLOCK_SIZE; }
 	inline Address& operator=(const Address &rhs)
 	{
@@ -394,12 +394,12 @@ public:
 class Event 
 {
 public:
-	Event(enum event_type type, ulong logical_address, uint size, double start_time);
+	Event(enum event_type type, unsigned long logical_address, uint size, double start_time);
 	Event();
 	Event(Event const& event);
 	inline virtual ~Event() {}
-	inline ulong get_logical_address() const 			{ return logical_address; }
-	inline void set_logical_address(ulong addr) 		{ logical_address = addr; }
+	inline unsigned long get_logical_address() const 			{ return logical_address; }
+	inline void set_logical_address(unsigned long addr) 		{ logical_address = addr; }
 	inline const Address &get_address() const 			{ return address; }
 	inline const Address &get_replace_address() const 	{ return replace_address; }
 	inline uint get_size() const 						{ return size; }
@@ -466,7 +466,7 @@ protected:
 	enum event_type type;
 	double accumulated_wait_time;
 
-	ulong logical_address;
+	unsigned long logical_address;
 	Address address;
 	Address replace_address;
 	uint size;
@@ -547,12 +547,12 @@ public:
 				pages_valid == BLOCK_SIZE ? ACTIVE :
 				pages_invalid + pages_valid == BLOCK_SIZE ? ACTIVE : PARTIALLY_FREE;
 	}
-	inline ulong get_erases_remaining() const { return erases_remaining; }
+	inline unsigned long get_erases_remaining() const { return erases_remaining; }
 	void invalidate_page(uint page);
 	inline long get_physical_address() const { return physical_address; }
 	inline Block *get_pointer() { return this; }
 	inline Page const& get_page(int i) const { return data[i]; }
-	inline ulong get_age() const { return BLOCK_ERASES - erases_remaining; }
+	inline unsigned long get_age() const { return BLOCK_ERASES - erases_remaining; }
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
@@ -568,7 +568,7 @@ private:
 	long physical_address;
 	vector<Page> data;
 	uint pages_valid;
-	ulong erases_remaining;
+	unsigned long erases_remaining;
 };
 
 /* The plane is the data storage hardware unit that contains blocks.*/
@@ -683,9 +683,9 @@ public:
 private:
 	void start_new_interval_writes();
 	void start_new_interval_reads();
-	map<ulong, uint> write_current_count;
+	map<unsigned long, uint> write_current_count;
 	vector<double> write_moving_average;
-	map<ulong, uint> read_current_count;
+	map<unsigned long, uint> read_current_count;
 	vector<double> read_moving_average;
 	uint current_interval;
 	double average_write_hotness;
@@ -1124,8 +1124,8 @@ class RaidSsd
 public:
 	RaidSsd (uint ssd_size = SSD_SIZE);
 	~RaidSsd();
-	double event_arrive(enum event_type type, ulong logical_address, uint size, double start_time);
-	double event_arrive(enum event_type type, ulong logical_address, uint size, double start_time, void *buffer);
+	double event_arrive(enum event_type type, unsigned long logical_address, uint size, double start_time);
+	double event_arrive(enum event_type type, unsigned long logical_address, uint size, double start_time, void *buffer);
 	void *get_result_buffer();
 	void print_statistics();
 	void reset_statistics();
@@ -1146,9 +1146,9 @@ public:
 	static void init(string folder);
 	static void register_completed_event(Event& event);
 	static void print_horizontally(int last_how_many_characters = UNDEFINED);
-	static void print_horizontally_with_breaks(ulong cursor = 0);
+	static void print_horizontally_with_breaks(unsigned long cursor = 0);
 	static void print_horizontally_with_breaks_last(long how_many_chars);
-	static string get_as_string(ulong cursor, ulong max, int chars_per_line);
+	static string get_as_string(unsigned long cursor, unsigned long max, int chars_per_line);
 	static void print_vertically();
 	static void write_file();
 	static bool write_to_file;
@@ -1561,6 +1561,7 @@ public:
 	template <class T> void simple_experiment_double(string name, T* variable, T min, T max, T inc);
 	//static vector<Experiment_Result> simple_experiment(Workload_Definition* experiment_workload, string name, long IO_limit, long& variable, long min_val, long max_val, long incr);
 	static void simple_experiment(Workload_Definition* workload, string name, int IO_limit);
+	static string get_current_dir_name();
 	void setup(string name);
 	void run(string experiment_name);
 	void run_single_point(string name);

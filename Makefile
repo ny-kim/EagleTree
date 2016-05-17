@@ -1,9 +1,9 @@
 
 # EagleTree makefile
 
-CC = /usr/bin/gcc
-CFLAGS = -std=c++0x -g -w -O2
-CXX = /usr/bin/g++
+CC = gcc-4.8
+CFLAGS = -std=c++11 -I /usr/local/opt/boost-1.61.0/include -L /usr/local/opt/boost-1.61.0/lib -g -w -O2
+CXX = g++-4.8
 CXXFLAGS = $(CFLAGS)
 ELF0 = run_test
 ELF1 = run_trace

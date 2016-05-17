@@ -160,7 +160,7 @@ void Simple_Thread::handle_event_completion(Event* event) {
 	}
 }
 
-Random_IO_Pattern_Collision_Free::Random_IO_Pattern_Collision_Free(long min_LBA, long max_LBA, ulong seed) : IO_Pattern(min_LBA, max_LBA), random_number_generator(seed), counter(0) {
+Random_IO_Pattern_Collision_Free::Random_IO_Pattern_Collision_Free(long min_LBA, long max_LBA, unsigned long seed) : IO_Pattern(min_LBA, max_LBA), random_number_generator(seed), counter(0) {
 	reinit();
 };
 

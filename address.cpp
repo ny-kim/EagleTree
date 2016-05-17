@@ -64,7 +64,7 @@ void Address::print(FILE *stream) const
 	fprintf(stream, "(%d, %d, %d, %d, %d, %d)", package, die, plane, block, page, (int) valid);
 }
 
-void Address::set_linear_address(ulong address)
+void Address::set_linear_address(unsigned long address)
 {
 	page = address % BLOCK_SIZE;
 	address /= BLOCK_SIZE;
@@ -78,7 +78,7 @@ void Address::set_linear_address(ulong address)
 	address /= SSD_SIZE;
 }
 
-void Address::set_linear_address(ulong address, enum address_valid valid)
+void Address::set_linear_address(unsigned long address, enum address_valid valid)
 {
 	set_linear_address(address);
 	this->valid = valid;

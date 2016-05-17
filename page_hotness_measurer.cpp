@@ -42,12 +42,12 @@ Simple_Page_Hotness_Measurer::Simple_Page_Hotness_Measurer()
 
 Simple_Page_Hotness_Measurer::~Simple_Page_Hotness_Measurer(void) {}
 
-enum write_hotness Simple_Page_Hotness_Measurer::get_write_hotness(ulong page_address) const {
+enum write_hotness Simple_Page_Hotness_Measurer::get_write_hotness(unsigned long page_address) const {
 	return writes_counter < KICK_START && reads_counter < KICK_START ? WRITE_HOT :
 			write_moving_average[page_address] >= average_write_hotness ? WRITE_HOT : WRITE_COLD;
 }
 
-enum read_hotness Simple_Page_Hotness_Measurer::get_read_hotness(ulong page_address) const {
+enum read_hotness Simple_Page_Hotness_Measurer::get_read_hotness(unsigned long page_address) const {
 	return writes_counter < KICK_START && reads_counter < KICK_START ? READ_HOT :
 			read_moving_average[page_address] >= average_read_hotness ? READ_HOT : READ_COLD;
 }
@@ -141,7 +141,7 @@ void Simple_Page_Hotness_Measurer::register_event(Event const& event) {
 
 	double time = event.get_current_time();
 
-	ulong page_address = event.get_logical_address();
+	unsigned long page_address = event.get_logical_address();
 	Address phys_addr = event.get_address();
 	if (type == WRITE) {
 		write_current_count[page_address]++;
@@ -264,11 +264,11 @@ BloomFilter_Page_Hotness_Measurer::BloomFilter_Page_Hotness_Measurer(uint num_bl
 
 BloomFilter_Page_Hotness_Measurer::~BloomFilter_Page_Hotness_Measurer(void) {}
 
-enum write_hotness BloomFilter_Page_Hotness_Measurer::get_write_hotness(ulong page_address) const {
+enum write_hotness BloomFilter_Page_Hotness_Measurer::get_write_hotness(unsigned long page_address) const {
 	return (get_hot_data_index(WRITE, page_address) >= hotness_threshold) ? WRITE_HOT : WRITE_COLD;
 }
 
-enum read_hotness BloomFilter_Page_Hotness_Measurer::get_read_hotness(ulong page_address) const {
+enum read_hotness BloomFilter_Page_Hotness_Measurer::get_read_hotness(unsigned long page_address) const {
 	return (get_hot_data_index(READ, page_address) >= hotness_threshold) ? READ_HOT : READ_COLD;
 }
 
@@ -327,7 +327,7 @@ void BloomFilter_Page_Hotness_Measurer::register_event(Event const& event) {
 	// Fetch page address information and type (read/write) from event
 	enum event_type type = event.get_event_type();
 	assert(type == WRITE || type == READ_COMMAND || type == COPY_BACK);
-	ulong page_address = event.get_logical_address();
+	unsigned long page_address = event.get_logical_address();
 	Address invalidated_address = event.get_replace_address(); // The physical address of page being invalidated
 	Address physical_address = event.get_address(); // The physical address of page written
 	Die_Stats& current_die_stats = package_die_stats[physical_address.package][physical_address.die];
@@ -416,7 +416,7 @@ void BloomFilter_Page_Hotness_Measurer::register_event(Event const& event) {
 	// print_die_stats();
 }
 
-double BloomFilter_Page_Hotness_Measurer::get_hot_data_index(event_type type, ulong page_address) const {
+double BloomFilter_Page_Hotness_Measurer::get_hot_data_index(event_type type, unsigned long page_address) const {
 	double result = 0;
 	double stepSize = 2 / (double) num_bloom_filters;
 	const hot_bloom_filter& filter = (type == WRITE ? write_bloom : read_bloom);

@@ -22,7 +22,7 @@ const double Experiment::K = 1000.0;    // One thousand
 
 double Experiment::calibration_precision      = 1.0; // microseconds
 double Experiment::calibration_starting_point = 15.00; // microseconds
-string Experiment::base_folder = get_current_dir_name();
+string Experiment::base_folder = Experiment::get_current_dir_name();
 
 Experiment::Experiment()
 	: d_variable(NULL), d_min(0), d_max(0), d_incr(0),
@@ -34,6 +34,13 @@ Experiment::Experiment()
 	  generate_trace_file(false),
 	  alternate_location_for_results_file("")
 {}
+
+string Experiment::get_current_dir_name() {
+	char buffer[1024];
+	string path(getcwd(buffer, sizeof(buffer)));
+	return path;
+}
+
 
 void Experiment::unify_under_one_statistics_gatherer(vector<Thread*> threads, StatisticsGatherer* statistics_gatherer) {
 	for (uint i = 0; i < threads.size(); ++i) {
@@ -226,7 +233,7 @@ vector<Experiment_Result> Experiment::random_writes_on_the_side_experiment(Workl
 			initial_write->add_follow_up_threads(experiment_threads);
 		}
 		for (int i = 0; i < random_write_threads; i++) {
-			ulong randseed = (i*3)+537;
+			unsigned long randseed = (i*3)+537;
 			Simple_Thread* random_writes = new Synchronous_Random_Writer(random_writes_min_lba, random_writes_max_lba, randseed);
 			Simple_Thread* random_reads = new Synchronous_Random_Reader(random_writes_min_lba, random_writes_max_lba, randseed+461);
 			/*if (workload == NULL) {
@@ -529,8 +536,11 @@ OperatingSystem* Experiment::load_state(string name) {
 }
 
 void Experiment::create_base_folder(string name) {
-	string exp_folder = get_current_dir_name() + name;
-	printf("creating exp folder:  %s\n", get_current_dir_name());
+	char buffer[1024];
+	char* _path = getcwd(buffer, sizeof(buffer));
+	string path(_path);
+	string exp_folder = path + name;
+	printf("creating exp folder:  %s\n", _path);
 	base_folder = exp_folder;
 	mkdir(base_folder.c_str(), 0755);
 }

@@ -116,7 +116,7 @@ public:
 class READS_OR_WRITES : public IO_Mode_Generator {
 public:
 	READS_OR_WRITES() : random_number_generator(4624626), write_probability(0.5) {}
-	READS_OR_WRITES(ulong seed, double write_probability) :
+	READS_OR_WRITES(unsigned long seed, double write_probability) :
 		random_number_generator(seed), write_probability(write_probability) {}
 	~READS_OR_WRITES() {};
 	virtual void init() {  }
@@ -156,7 +156,7 @@ class Random_IO_Pattern : public IO_Pattern
 {
 public:
 	Random_IO_Pattern() : IO_Pattern(), random_number_generator(23623620) {}
-	Random_IO_Pattern(long min_LBA, long max_LBA, ulong seed) : IO_Pattern(min_LBA, max_LBA), random_number_generator(seed) {};
+	Random_IO_Pattern(long min_LBA, long max_LBA, unsigned long seed) : IO_Pattern(min_LBA, max_LBA), random_number_generator(seed) {};
 	~Random_IO_Pattern() {};
 	int next() { return min_LBA + random_number_generator() % (max_LBA - min_LBA + 1); };
     friend class boost::serialization::access;
@@ -174,7 +174,7 @@ class Random_IO_Pattern_Collision_Free : public IO_Pattern
 {
 public:
 	Random_IO_Pattern_Collision_Free() : IO_Pattern(), random_number_generator(23623620), counter(0) {}
-	Random_IO_Pattern_Collision_Free(long min_LBA, long max_LBA, ulong seed);
+	Random_IO_Pattern_Collision_Free(long min_LBA, long max_LBA, unsigned long seed);
 	~Random_IO_Pattern_Collision_Free() {};
 	void reinit();
 	int next();
@@ -248,7 +248,7 @@ public:
 	void issue_first_IOs();
 	void handle_event_completion(Event* event);
 	void set_io_size(int size) { io_size = size; }
-	inline void set_num_ios(ulong num_ios) { number_of_times_to_repeat = num_ios; }
+	inline void set_num_ios(unsigned long num_ios) { number_of_times_to_repeat = num_ios; }
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
@@ -274,7 +274,7 @@ class Synchronous_Random_Writer : public Simple_Thread
 {
 public:
 	Synchronous_Random_Writer() : Simple_Thread() {}
-	Synchronous_Random_Writer(long min_LBA, long max_LBA, ulong randseed)
+	Synchronous_Random_Writer(long min_LBA, long max_LBA, unsigned long randseed)
 		: Simple_Thread(new Random_IO_Pattern(min_LBA, max_LBA, randseed), new WRITES(), 1, INFINITE) {}
     friend class boost::serialization::access;
     template<class Archive> void serialize(Archive & ar, const unsigned int version) {
@@ -288,7 +288,7 @@ class Synchronous_No_Collision_Random_Writer : public Simple_Thread
 {
 public:
 	Synchronous_No_Collision_Random_Writer() : Simple_Thread() {}
-	Synchronous_No_Collision_Random_Writer(long min_LBA, long max_LBA, ulong randseed)
+	Synchronous_No_Collision_Random_Writer(long min_LBA, long max_LBA, unsigned long randseed)
 		: Simple_Thread(new Random_IO_Pattern_Collision_Free(min_LBA, max_LBA, randseed), new WRITES(), 1, INFINITE) {}
 };
 
@@ -296,7 +296,7 @@ public:
 class Synchronous_Random_Reader : public Simple_Thread
 {
 public:
-	Synchronous_Random_Reader(long min_LBA, long max_LBA, ulong randseed )
+	Synchronous_Random_Reader(long min_LBA, long max_LBA, unsigned long randseed )
 		: Simple_Thread(new Random_IO_Pattern(min_LBA, max_LBA, randseed), new READS(), 1, INFINITE) {}
 };
 
@@ -305,7 +305,7 @@ class Asynchronous_Random_Writer : public Simple_Thread
 {
 public:
 	Asynchronous_Random_Writer() : Simple_Thread() {}
-	Asynchronous_Random_Writer(long min_LBA, long max_LBA, ulong randseed)
+	Asynchronous_Random_Writer(long min_LBA, long max_LBA, unsigned long randseed)
 		: Simple_Thread(new Random_IO_Pattern(min_LBA, max_LBA, randseed), new WRITES(), MAX_SSD_QUEUE_SIZE * 2, INFINITE) {}
     friend class boost::serialization::access;
     template<class Archive> void serialize(Archive & ar, const unsigned int version) {
@@ -318,7 +318,7 @@ class Asynchronous_Random_Reader : public Simple_Thread
 {
 public:
 	Asynchronous_Random_Reader() : Simple_Thread() {}
-	Asynchronous_Random_Reader(long min_LBA, long max_LBA, ulong randseed)
+	Asynchronous_Random_Reader(long min_LBA, long max_LBA, unsigned long randseed)
 		: Simple_Thread(new Random_IO_Pattern(min_LBA, max_LBA, randseed), new READS(), MAX_SSD_QUEUE_SIZE * 2, INFINITE) {}
     friend class boost::serialization::access;
     template<class Archive> void serialize(Archive & ar, const unsigned int version) {
@@ -377,7 +377,7 @@ public:
 class Asynchronous_Random_Reader_Writer : public Simple_Thread
 {
 public:
-	Asynchronous_Random_Reader_Writer(long min_LBA, long max_LBA, ulong seed, double writes_probability = 0.5 )
+	Asynchronous_Random_Reader_Writer(long min_LBA, long max_LBA, unsigned long seed, double writes_probability = 0.5 )
 		: Simple_Thread(new Random_IO_Pattern(min_LBA, max_LBA, seed), new READS_OR_WRITES(seed, writes_probability), MAX_SSD_QUEUE_SIZE * 2, INFINITE) {}
     friend class boost::serialization::access;
     template<class Archive> void serialize(Archive & ar, const unsigned int version) {
@@ -489,7 +489,7 @@ class File_Manager : public Thread
 {
 public:
 	File_Manager();
-	File_Manager(long min_LBA, long max_LBA, uint num_files_to_write, long max_file_size, ulong randseed = 0);
+	File_Manager(long min_LBA, long max_LBA, uint num_files_to_write, long max_file_size, unsigned long randseed = 0);
 	~File_Manager();
 	void issue_first_IOs();
 	void handle_event_completion(Event* event);

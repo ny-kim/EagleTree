@@ -978,7 +978,7 @@ void bloom_detector::change_in_groups(vector<group>& groups, double current_time
 }
 
 int bloom_detector::which_group_should_this_page_belong_to(Event const& event) {
-	ulong la = event.get_logical_address();
+	unsigned long la = event.get_logical_address();
 	int group_id = group::mapping_pages_to_groups[la];
 
 	if (tag_map[event.get_id() % tag_map.size()] != UNDEFINED) {

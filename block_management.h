@@ -390,13 +390,13 @@ struct sequential_writes_tracking {
 	long key;
 	double last_arrival_timestamp;
 	double const init_timestamp;
-	ulong last_io_num;
+	unsigned long last_io_num;
 	sequential_writes_tracking(double time, long key);
 };
 
 class Sequential_Pattern_Detector {
 public:
-	typedef ulong logical_address;
+	typedef unsigned long logical_address;
 	Sequential_Pattern_Detector(uint threshold);
 	~Sequential_Pattern_Detector();
 	sequential_writes_tracking const& register_event(logical_address lb, double time);
@@ -411,7 +411,7 @@ private:
 	uint registration_counter;
 	Sequential_Pattern_Detector_Listener* listener;
 	uint threshold;
-	ulong io_num;
+	unsigned long io_num;
 };
 
 class Sequential_Locality_BM : public Block_manager_parallel, public Sequential_Pattern_Detector_Listener {

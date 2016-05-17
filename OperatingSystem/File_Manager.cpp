@@ -10,7 +10,7 @@
 
 using namespace ssd;
 
-File_Manager::File_Manager(long min_LBA, long max_LBA, uint num_files_to_write, long max_file_size, ulong randseed)
+File_Manager::File_Manager(long min_LBA, long max_LBA, uint num_files_to_write, long max_file_size, unsigned long randseed)
 	: Thread(), min_LBA(min_LBA), max_LBA(max_LBA),
 	  num_files_to_write(num_files_to_write),
 	  max_file_size(max_file_size),

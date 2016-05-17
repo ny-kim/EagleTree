@@ -193,7 +193,7 @@ void VisualTracer::print_horizontally(int last_how_many_characters) {
 }
 
 
-void VisualTracer::print_horizontally_with_breaks(ulong cursor) {
+void VisualTracer::print_horizontally_with_breaks(unsigned long cursor) {
 	printf("\n");
 	int chars_to_write_each_time = 150;
 	while (cursor < trace[0][0].size()) {
@@ -249,7 +249,7 @@ void VisualTracer::trim_from_start(int num_characters_from_start) {
 	amount_written_to_file += num_characters_from_start;
 }
 
-string VisualTracer::get_as_string(ulong cursor, ulong max, int chars_per_line) {
+string VisualTracer::get_as_string(unsigned long cursor, unsigned long max, int chars_per_line) {
 	stringstream ss;
 	while (cursor < trace[0][0].size() && cursor < max) {
 		for (uint i = 0; i < SSD_SIZE; i++) {

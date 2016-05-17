@@ -90,7 +90,7 @@ void Flexible_Reader::register_read_commencement(Flexible_Read_Event* event) {
 	Address phys_addr = event->get_address();
 	int package = phys_addr.package;
 	int die = phys_addr.die;
-	ulong log_addr = immediate_candidates_logical_addresses[package][die];
+	unsigned long log_addr = immediate_candidates_logical_addresses[package][die];
 	assert(event->get_logical_address() == log_addr);
 
 	for (uint i = 0; i < pt.ranges.size(); i++) {
