@@ -535,10 +535,10 @@ private:
 
 // erase -> update superblock_pe and max_pe
 // invalidate -> update superblock_invalid
-class Garbage_Collector_500 : public Garbage_Collector {
+class Garbage_Collector_Super : public Garbage_Collector {
 public:
-	Garbage_Collector_500();
-	Garbage_Collector_500(Ssd* ssd, Block_manager_parent* bm);
+	Garbage_Collector_Super();
+	Garbage_Collector_Super(Ssd* ssd, Block_manager_parent* bm);
 	// Called by the block manager after any page in the SSD is invalidated, as a result of a trim or a write.
 	// This is used to keep the gc_candidates structure updated.
 	virtual void register_event_completion(Event & event);

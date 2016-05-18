@@ -115,6 +115,9 @@ extern uint PLANE_SIZE;
 extern const double PLANE_REG_READ_DELAY;
 extern const double PLANE_REG_WRITE_DELAY;
 
+/* Super-block */
+extern uint SUPERBLOCK_SIZE;
+
 /* Block class:
  * 	number of Pages per Block (size)
  * 	number of erases in lifetime of block

@@ -56,6 +56,9 @@ namespace ssd {
 // Number of blocks in a plane
 	uint PLANE_SIZE = 64;
 
+// Number of super-blocks
+	uint SUPERBLOCK_SIZE = 1<<2;
+
 // Number of pages in a block
 	uint BLOCK_SIZE = 16;
 

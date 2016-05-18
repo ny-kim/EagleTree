@@ -40,7 +40,7 @@ void Migrator::init(IOScheduler* new_s, Block_manager_parent* new_bm, Garbage_Co
 void Migrator::register_event_completion(Event* event) {
 	if (event->get_event_type() == ERASE) {
 		if(event->erased_invalid > 0) {
-			gc->invalidate_event_completion(*event);
+			gc->erase_event_completion(*event);
 		}
 		handle_erase_completion(event);
 	}
