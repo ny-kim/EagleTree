@@ -12,7 +12,7 @@ Garbage_Collector_LRU::Garbage_Collector_LRU(Ssd* ssd, Block_manager_parent* bm)
 	   gc_candidates(SSD_SIZE, vector<queue<int> >(PACKAGE_SIZE))
 {}
 
-void Garbage_Collector_LRU::register_event_completion(Event const& event) {
+void Garbage_Collector_LRU::register_event_completion(Event & event) {
 	if (event.get_event_type() != WRITE) {
 		return;
 	}
@@ -25,14 +25,26 @@ void Garbage_Collector_LRU::register_event_completion(Event const& event) {
 	}
 }
 
+void Garbage_Collector_LRU::invalidate_event_completion(Event & event) {
+
+}
+
+void Garbage_Collector_LRU::erase_event_completion(Event & event) {
+
+}
+
 void Garbage_Collector_LRU::commit_choice_of_victim(Address const& phys_address, double time) {
 	int package = phys_address.package;
 	int die = phys_address.die;
 	assert(phys_address.block == gc_candidates[package][die].front());
 	gc_candidates[package][die].pop();
 }
-
+int i =0;
 Block* Garbage_Collector_LRU::choose_gc_victim(int package_id, int die_id, int klass) const {
+	if(i++==0){
+		printf("I am LRU");
+	}
+
 	if (package_id == UNDEFINED) {
 		package_id = rand() % SSD_SIZE;
 	}

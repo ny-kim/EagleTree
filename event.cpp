@@ -47,6 +47,8 @@ Event::Event(enum event_type type, unsigned long logical_address, uint size, dou
 		printf("invalid logical address, too big  %d   %d\n", logical_address, NUMBER_OF_ADDRESSABLE_BLOCKS() * BLOCK_SIZE);
 		assert(false);
 	}
+	erased_invalid=0;
+	invalidate_page_flag=0;
 }
 
 Event::Event(Event const& event) :
@@ -75,7 +77,10 @@ Event::Event(Event const& event) :
 	cached_write(event.cached_write),
 	num_iterations_in_scheduler(0),
 	ssd_id(event.ssd_id)
-{}
+{
+	erased_invalid=0;
+	invalidate_page_flag=0;
+}
 
 bool Event::is_flexible_read() {
 	return dynamic_cast<Flexible_Read_Event*>(this) != NULL;

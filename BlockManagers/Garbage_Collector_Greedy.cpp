@@ -49,7 +49,15 @@ Block* Garbage_Collector_Greedy::choose_gc_victim(int package_id, int die_id, in
 	return best_block;
 }
 
-void Garbage_Collector_Greedy::register_event_completion(Event const& event) {
+void Garbage_Collector_Greedy::invalidate_event_completion(Event & event) {
+
+}
+
+void Garbage_Collector_Greedy::erase_event_completion(Event & event) {
+
+}
+
+void Garbage_Collector_Greedy::register_event_completion(Event & event) {
 	if (event.get_event_type() != WRITE) {
 		return;
 	}
@@ -62,6 +70,15 @@ void Garbage_Collector_Greedy::register_event_completion(Event const& event) {
 	if (PRINT_LEVEL > 1) {
 		//printf("Inserting as GC candidate: %ld ", ra.get_linear_address()); ra.print(); printf(" with age_class %d and valid blocks: %d\n", num_live_pages);
 	}
+	//sim edit
+//	Block& block = *ssd -> get_package(ra.package)->get_die(ra.die)->get_plane(ra.plane)->get_block(ra.block);
+//
+//		if(block.get_age()>0){
+//			printf("Inserting as GC candidate: %ld ", ra.get_linear_address());
+//					ra.print();
+//			printf(" with age_class %d and valid blocks: %d-%d\n", block.get_age(), block.get_pages_valid(), block.get_pages_invalid());
+//		}
+	// sim edit end
 	gc_candidates[ra.package][ra.die].insert(ra.get_linear_address());
 	if (gc_candidates[ra.package][ra.die].size() == 1) {
 		bm->check_if_should_trigger_more_GC(event);

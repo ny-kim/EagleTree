@@ -20,12 +20,13 @@ set(SOURCE_FILES
     BlockManagers/bm_round_robin.cpp
     BlockManagers/bm_shortest_queue.cpp
     BlockManagers/bm_tags.cpp
+    BlockManagers/Garbage_Collector_500.cpp
     BlockManagers/Garbage_Collector_Greedy.cpp
     BlockManagers/Garbage_Collector_LRU.cpp
     BlockManagers/k_modal_group.cpp
     BlockManagers/Migrator.cpp
     BlockManagers/wear_leveling_strategy.cpp
-    Experiments/demo.cpp
+    Experiments/our_demo.cpp
     FTLs/DFTL.cpp
     FTLs/FAST.cpp
     FTLs/ftl_parent.cpp
@@ -78,9 +79,9 @@ set(SOURCE_FILES
     ssd.h
     Workload_Definitions.cpp)
 
-add_executable(demo ${SOURCE_FILES})
+add_executable(our_demo ${SOURCE_FILES})
 
 if(Boost_FOUND)
-    target_link_libraries(demo ${Boost_LIBRARIES})
+    target_link_libraries(our_demo ${Boost_LIBRARIES})
 endif()
 

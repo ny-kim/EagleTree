@@ -61,7 +61,9 @@ enum address_valid Address::compare(const Address &address) const
 /* default stream is stdout */
 void Address::print(FILE *stream) const
 {
-	fprintf(stream, "(%d, %d, %d, %d, %d, %d)", package, die, plane, block, page, (int) valid);
+	uint superblock_idx = block%(1<<2);
+	fprintf(stream, "(%d, %d, %d, superblock : %d, %d, %d, %d)", package, die, plane,superblock_idx, block, page, (int) valid);
+	//	fprintf(stream, "(%d, %d, %d, %d, %d, %d)", package, die, plane, block, page, (int) valid);
 }
 
 void Address::set_linear_address(unsigned long address)

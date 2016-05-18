@@ -411,6 +411,9 @@ void DFTL::print() const {
 	}*/
 
 	// cluster by mapping page
+	//sim edit
+		return;
+		//sim edit end
 	map<int, int> bins;
 	for (auto i : cache->cached_mapping_table) {
 		//long translation_page_id = la / ENTRIES_PER_TRANSLATION_PAGE;

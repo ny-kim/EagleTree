@@ -59,9 +59,14 @@ enum status Block::_erase(Event &event)
 	}
 
 	event.incr_execution_time(BLOCK_ERASE_DELAY);
+	//sim edit
+//	printf("======================\nsibal11111111111\t\t%d~~~~~~~~~~~~~~\n", pages_invalid);
+	event.erased_invalid = pages_invalid;
+	//sim edit end
 	erases_remaining--;
 	pages_valid = 0;
 	pages_invalid = 0;
+
 	return SUCCESS;
 }
 

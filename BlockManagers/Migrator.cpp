@@ -39,6 +39,9 @@ void Migrator::init(IOScheduler* new_s, Block_manager_parent* new_bm, Garbage_Co
 
 void Migrator::register_event_completion(Event* event) {
 	if (event->get_event_type() == ERASE) {
+		if(event->erased_invalid > 0) {
+			gc->invalidate_event_completion(*event);
+		}
 		handle_erase_completion(event);
 	}
 	else if (event->get_event_type() == TRIM || (event->get_event_type() == WRITE && event->get_replace_address().valid != NONE)) {
@@ -96,6 +99,9 @@ void Migrator::handle_trim_completion(Event* event) {
 	long const phys_addr = block.get_physical_address();
 
 	assert(page.get_state() == VALID);
+	//sim edit
+	event->invalidate_page_flag=1;
+	//sim edit end
 	block.invalidate_page(ra.page);
 	assert(block.get_state() != FREE);
 

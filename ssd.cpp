@@ -51,6 +51,7 @@ Ssd::Ssd():
 		switch (GARBAGE_COLLECTION_POLICY) {
 		case 0: gc = new Garbage_Collector_Greedy(this, bm); break;
 		case 1: gc = new Garbage_Collector_LRU(this, bm); break;
+		case 2: gc = new Garbage_Collector_500(this, bm); break;
 		default: gc = new Garbage_Collector_Greedy(this, bm); break;
 		}
 	}

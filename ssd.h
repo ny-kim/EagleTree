@@ -458,6 +458,13 @@ public:
 	inline int get_iteration_count() { return num_iterations_in_scheduler; }
 	inline int get_ssd_id() { return ssd_id; }
 	inline void set_ssd_id(int new_ssd_id) { ssd_id = new_ssd_id; }
+	//sim edit
+	inline int get_erased_invalid() { return erased_invalid; }
+	inline void set_erased_invalid(int new_erased_invalid) { erased_invalid= new_erased_invalid; }
+	//sim edit
+		int erased_invalid;
+		int invalidate_page_flag;
+		// sim edit
 protected:
 	long double start_time;
 	double execution_time;
@@ -496,6 +503,8 @@ protected:
 	int thread_id;
 	double pure_ssd_wait_time;
 	int num_iterations_in_scheduler;
+
+
 };
 
 class Message : public Event {
